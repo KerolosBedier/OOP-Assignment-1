@@ -23,8 +23,10 @@ void repeat_or_finish();
 
 
 // THE FUNCTIONS TO DO TO THE PHOTO 
- void black_and_white_image();// filter 1
+void black_and_white_image();// filter 1
 void flip_image();// filter 4
+void invert_image(); //filter 2
+void rotate_image(); //filter 5
 
 
 int main() {
@@ -58,7 +60,8 @@ void main_menu() {     // this function have all option(filters) for the user to
         black_and_white_image();
 		break;
 	case 2:
-      	//seconed Filter	
+      	//seconed Filter
+        void invert_image();	
 		break;
 	case 3:
       	//Third Filter	
@@ -71,6 +74,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 
 	case 5:
       	//Fifth Filter	
+        void rotate_image();
 		break;
 
 	case 6:
@@ -130,7 +134,8 @@ void repeat_or_finish()  //this function made for asking the user after adding a
 
 // Create the Filter Functions Below Here
 
-//Adham Salah filters(1,4)
+//Adham Salah's Filters(1,4)
+
 void black_and_white_image() //filter 1
 {
     for (int i = 0; i < SIZE; i++){
@@ -146,7 +151,8 @@ void black_and_white_image() //filter 1
 }
 
 
-void flip_image(){ //filter 4
+void flip_image() //filter 4
+{ 
     //frist thing we need to have a copied image for the orginal we have
     unsigned char image2[SIZE][SIZE];
 
@@ -194,3 +200,127 @@ void flip_image(){ //filter 4
     repeat_or_finish();
 
 }
+//============================================================================
+
+// Kerolos Bedier's Filter (2 , 5)
+
+void invert_image() // Filter 2
+{
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+          //operation to each pixel in the image is that dark areas become light and light areas become dark
+            image[i][j] = 255-image[i][j];
+		}
+	}
+    repeat_or_finish();
+	
+}
+
+
+
+void rotate_image() //Filter 5
+{ 
+	unsigned char copied_image[SIZE][SIZE];
+
+	for (int i = 0; i < SIZE; i++) {
+	    for (int j = 0; j< SIZE; j++) {
+        	copied_image[i][j] = image[i][j];
+		}
+	}
+
+	cout << "Press 1 to Routate the Image for 90 degrees \n" 
+		 << "Press 2 to Routate the Image for 180 degrees \n"
+		 << "Press 3 to Routate the Image for 270 degrees \n";
+
+	int x ; 
+	cin >> x ; 
+
+	while (x > 3 || x < 1) {   // this is a limitaion for variable x to make the user don't input a number higher than 3 or lower than 1     
+		cout << "invalid choice ,please try again." << endl;
+		cin >> x;
+	}	
+	
+			if(x==1){ //90 degrees loop
+				for (int i = 0; i < SIZE; i++) {
+    				for (int j = 0; j< SIZE; j++) {
+						image[j][SIZE - 1 - i] = copied_image[i][j] ;
+						/* 90 degrees rotate the value of column will be the same and sawp index will change in the row index
+				 		and sawp the row index with the column index with the change the value of it */
+    				}
+  				}
+			}
+
+			else if(x==2){ //180 degrees loop
+				for (int i = 0; i < SIZE; i++) {
+    				for (int j = 0; j< SIZE; j++) {
+						image[SIZE - 1 - i][SIZE - 1 - j] = copied_image[i][j] ;
+						/* 180 sawp the column index with the column index with the change the value of it
+				 		and sawp the row index with the column index with the change the value of it */						
+    				}
+  				}	
+			}
+			else if(x==3){ //270 degrees loop
+				for (int i = 0; i < SIZE; i++) {
+    				for (int j = 0; j< SIZE; j++) {
+						image[SIZE - 1 - j][i] = copied_image[i][j] ;
+						/* 180 sawp the column index with the column index with the change the value of it
+				 		and rotate the value of row will be the same and sawp index will change in the column index */						
+    				}
+  				}
+			}
+    repeat_or_finish();
+}
+
+    //Another sulotion for rotate image function
+	
+    // switch (x)
+	// {
+	// case 1:
+	// 	for (int i = 0; i < SIZE; i++) {
+    // 		for (int j = 0; j< SIZE; j++) {
+	// 			image[j][255 - i] = copied_image[i][j] ;
+    // 		}
+  	// 	}
+	// break;
+	
+	// case 2:
+	// 	for (int i = 0; i < SIZE; i++) {
+    // 		for (int j = 0; j< SIZE; j++) {
+	// 			copied_image[j][255 - i] = image[i][j] ;
+    // 		}
+  	// 	}
+
+	// 	for (int i = 0; i < SIZE; i++) {
+    // 		for (int j = 0; j< SIZE; j++) {
+	// 			image[j][255 - i] = copied_image[i][j] ;
+    // 		}
+  	// 	}		
+	// break;
+
+	// case 3:
+	// 	for (int i = 0; i < SIZE; i++) {
+    // 		for (int j = 0; j< SIZE; j++) {
+	// 			image[j][255 - i] = copied_image[i][j] ;
+    // 		}
+  	// 	}		
+
+	// 	for (int i = 0; i < SIZE; i++) {
+    // 		for (int j = 0; j< SIZE; j++) {
+	// 			copied_image[j][255 - i] = image[i][j] ;
+    // 		}
+  	// 	}
+
+
+	// 	for (int i = 0; i < SIZE; i++) {
+    // 		for (int j = 0; j< SIZE; j++) {
+	// 			image[j][255 - i] = copied_image[i][j] ;
+    // 		}
+  	// 	}
+	// break;
+	// }
+
+
+//==========================================================================
+
+
+
