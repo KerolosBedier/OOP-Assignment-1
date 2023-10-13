@@ -23,7 +23,8 @@ void repeat_or_finish();
 
 
 // THE FUNCTIONS TO DO TO THE PHOTO 
- 
+ void black_and_white_image();// filter 1
+void flip_image();// filter 4
 
 
 int main() {
@@ -53,7 +54,8 @@ void main_menu() {     // this function have all option(filters) for the user to
 
 	switch (x) { 
 	case 1:
-      	//Frist Filter	
+        //first filter
+        black_and_white_image();
 		break;
 	case 2:
       	//seconed Filter	
@@ -63,7 +65,8 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 
 	case 4:
-      	//Fourth Filter	
+        //fourth filter
+        flip_image();
 		break;
 
 	case 5:
@@ -126,3 +129,68 @@ void repeat_or_finish()  //this function made for asking the user after adding a
 
 
 // Create the Filter Functions Below Here
+
+//Adham Salah filters(1,4)
+void black_and_white_image() //filter 1
+{
+    for (int i = 0; i < SIZE; i++){
+        for (int j = 0; j< SIZE; j++) {
+            if (image[i][j] > 127) // the white value of pixel is 255 and the black one is 0 so we need to turn every pixel above the avarage(127) is white and under that is black
+                image[i][j] = 255;
+            else
+                image[i][j] = 0;
+        }
+    }
+    repeat_or_finish();
+
+}
+
+
+void flip_image(){ //filter 4
+    //frist thing we need to have a copied image for the orginal we have
+    unsigned char image2[SIZE][SIZE];
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            image2[i][j] = image[i][j];
+        }
+    }
+
+    cout << "Do you want to  Flip the Image Horizontally or Vertically? \n"
+         << "Press 1 to Flip Horizontally \n"
+         << "Press 2 to Flip Vertically \n";
+
+    int x;
+    cin >> x;
+
+    while (x > 2 || x < 1) {  // this is a limitaion for variable x to make the user don't input a number higher than 2 or lower than 1
+        cout << "invalid choice ,please try again." << endl;
+        cin >> x;
+    }
+
+    if(x==1){ //Flip Horizontally loop
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j< SIZE; j++) {
+                image[SIZE-i-1][j]=image2[i][j];
+                /* in horizontal flip the column will be the same(dont change)
+                 and the row will go to last index in the row index */
+            }
+        }
+    }
+
+
+    else if(x==2){  //Flip Vertically loop
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j< SIZE; j++) {
+                image[i][SIZE-j-1]=image2[i][j];
+                /* in Vertical flip the column will be the same(dont change)
+                 and the row will go to last index in the row index */
+            }
+        }
+
+    }
+    repeat_or_finish();
+
+}
