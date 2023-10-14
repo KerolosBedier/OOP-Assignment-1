@@ -27,6 +27,9 @@ void black_and_white_image();// filter 1
 void flip_image();// filter 4
 void invert_image(); //filter 2
 void rotate_image(); //filter 5
+void merge_images(); //filter 3
+void darken_and_lighten_image(); //filter 6
+
 
 
 int main() {
@@ -61,10 +64,11 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 	case 2:
       	//seconed Filter
-        void invert_image();	
+         invert_image();
 		break;
 	case 3:
-      	//Third Filter	
+        //Third Filter
+         merge_images();
 		break;
 
 	case 4:
@@ -74,11 +78,12 @@ void main_menu() {     // this function have all option(filters) for the user to
 
 	case 5:
       	//Fifth Filter	
-        void rotate_image();
+         rotate_image();
 		break;
 
 	case 6:
-      	//Sixth Filter	
+      	//Sixth Filter
+         darken_and_lighten_image();
 		break;
 	}
 	 
@@ -323,4 +328,64 @@ void rotate_image() //Filter 5
 //==========================================================================
 
 
+// Ahmed Atef filters (3,6)
 
+void merge_images() //filter 3
+{
+    //frist ting we need to add a new(another) image to the programm
+    unsigned char image2[SIZE][SIZE];
+    char imageFileName[100];
+
+    cout << "Enter Another Source Image File name to Merge: ";
+    cin >> imageFileName;
+    strcat (imageFileName, ".bmp");
+    readGSBMP(imageFileName, image2);
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            image[i][j] = (image[i][j] + image2[i][j])/2;
+            // to merge we get the same pixel in the frist image and the seconed one
+            // and add the two value and divide them to have the closet valve(color) between the two pixels
+        }
+    }
+    repeat_or_finish();
+
+}
+
+
+void darken_and_lighten_image() { //filter 6
+
+    cout << "Do you want to (d)arken or (l)ighten? \n"
+         << "Press 1 to Darken the Image \n"
+         << "Press 2 to Lighten the Image \n";
+
+    int x;
+    cin >> x;
+
+    while (x > 2 || x <
+                    1) { // this is a limitaion for variable x to make the user don't input a number higher than 2 or lower than 1
+        cout << "invalid choice ,pleas try again." << endl;
+        cin >> x;
+    }
+
+    if (x == 1) {
+
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image[i][j] = (image[i][j]) / 2;
+            }
+        }
+    }
+
+
+    if (x == 2) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image[i][j] = (255 + image[i][j]) / 2;
+                // merge the photo with white pixels
+
+            }
+        }
+    }
+    repeat_or_finish();
+}
