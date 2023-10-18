@@ -1,5 +1,5 @@
 // FCAI – OOP Programming – 2023 - Assignment 1
-// Program Name:                CS213-2023-20220252-20220051-20220024-A1-Part1.cpp
+// Program Name:                CS213-2023-20220252-20220051-20220024-A1-Part2.cpp
 // Last Modification Date:      10/10/2023
 // Author1 and ID and Group:    Kerolos Bedier Soliman - 20220252 - N/A
 // Author2 and ID and Group:    Adham salah ezzat  - 20220051 - N/A
@@ -25,8 +25,10 @@ void repeat_or_finish();
 // THE FUNCTIONS TO DO TO THE PHOTO 
 void black_and_white_image();// filter 1
 void flip_image();// filter 4
+
 void invert_image(); //filter 2
 void rotate_image(); //filter 5
+
 void merge_images(); //filter 3
 void darken_and_lighten_image(); //filter 6
 
@@ -47,12 +49,21 @@ void main_menu() {     // this function have all option(filters) for the user to
 		<< "Press 3 to Merge two Images.\n"
 		<< "Press 4 to Flip the Image.\n"
 		<< "Press 5 to Rotate Image.\n"
-		<< "Press 6 to Darken and Lighten Image .\n ";
+		<< "Press 6 to Darken and Lighten Image .\n"
+		<< "Press 7 to Detect Image Edges.\n"
+		<< "Press 8 to Enlarge Image.\n"
+		<< "Press 9 to Shrink Image.\n"
+		<< "Press 10 to Mirror Image.\n"
+		<< "Press 11 to Shuffle Image.\n"
+		<< "Press 12 to Blur Image.\n"
+		<< "Press 13 to Crop Image.\n"
+		<< "Press 14 to Skew Image.\n";
+
 
 	int x; 
 	cin >> x ; //the number of filter that the user choose
 
-	while (x > 6 || x < 1) { // this is a limitaion for variable x to make the user don't input a number higher than 6 or lower than 1     
+	while (x > 14 || x < 1) { // this is a limitaion for variable x to make the user don't input a number higher than 6 or lower than 1     
 		cout << "invalid choice ,pleas try again." << endl;
 		cin >> x;
 	}
@@ -85,6 +96,39 @@ void main_menu() {     // this function have all option(filters) for the user to
       	//Sixth Filter
          darken_and_lighten_image();
 		break;
+
+	case 7:
+		// detact_image();
+		break;
+	
+	case 8:
+		// enlarge_image();
+		break;
+	
+	case 9:
+		// shrink_image();
+		break;
+	
+
+	case 10:
+		// miror_image();
+		break;
+
+	case 11:
+		// shuffle_image();
+		break;
+
+	case 12:
+		// blur_image();
+		break;	
+	
+    case 13:
+		// crop_image();
+		break;	        
+	
+    case 14:
+		// skew_image();
+		break;	
 	}
 	 
 }
