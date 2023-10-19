@@ -32,6 +32,10 @@ void rotate_image(); //filter 5
 void merge_images(); //filter 3
 void darken_and_lighten_image(); //filter 6
 
+void detact_image(); //Filter 7
+void mirror_image(); //Filter a
+void crop_image(); //Filter d
+
 
 
 int main() {
@@ -98,7 +102,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 
 	case 7:
-		// detact_image();
+		 detact_image();
 		break;
 	
 	case 8:
@@ -111,7 +115,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 	
 
 	case 10:
-		// miror_image();
+		 mirror_image();
 		break;
 
 	case 11:
@@ -123,7 +127,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;	
 	
     case 13:
-		// crop_image();
+		crop_image();
 		break;	        
 	
     case 14:
@@ -431,5 +435,137 @@ void darken_and_lighten_image() { //filter 6
             }
         }
     }
+    repeat_or_finish();
+}
+//==========================================================================
+//Adham Salah's Filters Part2 (7,a,d)
+
+
+void detact_image(){
+    unsigned char copied_image[SIZE][SIZE];
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            copied_image[i][j] = image[i][j];
+        }
+    }
+
+
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            if (copied_image[i][j] > 127){ // the white value of pixel is 255 and the black one is 0 so we need to turn every pixel above the avarage(127) is white and under that is black
+                copied_image[i][j] = 255;
+                image[i][j] = 255;
+            }
+            else{
+                copied_image[i][j] = 0;
+                image[i][j] = 0;
+            }
+        }
+
+    }
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            if (copied_image[i][j] == 0 && copied_image[i][j-1]==0 && copied_image[i][j+1]==0 && copied_image[i-1][j]==0 && copied_image[i+1][j]==0 ){
+                image[i][j] = 255;
+            }
+        }
+    }
+
+    repeat_or_finish();
+}
+
+
+void mirror_image(){
+
+
+    cout << "Press 1 to Mirror Left Side \n"
+         << "Press 2 to Mirror Right Side \n"
+         << "Press 3 to Mirror Upper Side \n"
+         << "Press 4 to Mirror Lower Side" << endl ;
+
+
+    int x ;
+    cin >> x ;
+
+    while (x > 4 || x < 1) {
+        cout << "invalid choice ,please try again." << endl;
+        cin >> x;
+    }
+
+    if( x == 1 ){
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j< SIZE/2; j++) {
+                image[i][SIZE -j] = image[i][j];
+            }
+        }
+    }
+
+    if( x == 2 ){
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j< SIZE/2; j++) {
+                image[i][j] = image[i][SIZE - j];
+            }
+        }
+    }
+
+
+    if( x == 3 ){
+        for (int i = 0; i < SIZE/2; i++) {
+            for (int j = 0; j< SIZE; j++) {
+                image[SIZE - i][j] = image[i][j];
+            }
+        }
+    }
+
+    if( x == 4 ){
+        for (int i = 0; i < SIZE/2; i++) {
+            for (int j = 0; j< SIZE; j++) {
+                image[i][j] = image[SIZE - i][j];
+            }
+        }
+    }
+
+    repeat_or_finish();
+}
+
+
+void crop_image()
+{
+    int x, y, length, width;
+
+    // Get user input for x, y, length, and width
+    cout << "Enter x position: ";
+    cin >> x;
+    cout << "Enter y position: ";
+    cin >> y;
+    cout << "Enter length: ";
+    cin >> length;
+    cout << "Enter width: ";
+    cin >> width;
+
+
+    // Perform cropping
+    unsigned char croppedImage[SIZE][SIZE];
+
+    for (int i = y; i < y + length && i < SIZE; i++) {
+        for (int j = x; j < x + width && j < SIZE; j++) {
+            croppedImage[i - y][j - x] = image[i][j];
+        }
+    }
+
+    // Copy the cropped image back to the original image
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (i < y || i >= y + length || j < x || j >= x + width) {
+                image[i][j] = 255; // Set pixels outside the crop area to white
+            } else {
+                image[i][j] = croppedImage[i - y][j - x];
+            }
+        }
+    }
+
     repeat_or_finish();
 }
