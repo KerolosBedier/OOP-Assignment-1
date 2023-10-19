@@ -41,8 +41,9 @@ void shuffle_image(); //Filter b
 void skew_image(); //Filter e&f
 void skew_herizontally(); //Filter e
 
-
-
+void shrink_image(); //Filter 9
+void blur_image(int x = 7); //Filter c
+void skew_vertically(); //Filter f
 
 int main() {
 	loadImage();
@@ -103,7 +104,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 
 	case 6:
-      	//Sixth Filter
+//      	Sixth Filter
          darken_and_lighten_image();
 		break;
 
@@ -116,7 +117,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 	
 	case 9:
-		// shrink_image();
+		 shrink_image();
 		break;
 	
 
@@ -129,7 +130,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 
 	case 12:
-		// blur_image();
+		 blur_image();
 		break;	
 	
     case 13:
@@ -730,7 +731,7 @@ void skew_image()
 		skew_herizontally(); 
 	
 	else if(z==2)
-		// skew_vertically();
+		 skew_vertically();
 
 	
 repeat_or_finish();	
@@ -774,5 +775,124 @@ void skew_herizontally()
 		}
 		step -= mov;
 	}
+
+}
+//==========================================================================
+//Ahmed Atef's Filters Part2 (9,c,f)
+void shrink_image(){
+    unsigned char image2[SIZE][SIZE];
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            image2[i][j] = image[i][j];
+            image[i][j]=255;
+
+        }
+
+    }
+
+    cout<<"Shrink to (1/2) Press 1, (1/3) Press 2 or (1/4) Press 3?   " ;
+
+    int x ;
+    cin>>x;
+
+    while (x > 3 || x < 1) {  // this is a limitaion for variable x to make the user don't input a number higher than 2 or lower than 1
+        cout << "invalid choice ,please try again." << endl;
+        cin >> x;
+    }
+
+    if(x==1){
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image[i / 2][j / 2] = image2[i][j];
+
+            }
+        }
+    }
+
+    else if (x==2){
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image[i / 3][j / 3] = image2[i][j];
+
+            }
+        }
+    }
+
+    else if (x==3){
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                image[i / 4][j / 4] = image2[i][j];
+
+            }
+        }
+    }
+
+    repeat_or_finish();
+}
+void blur_image(int x){
+
+    if (x == 0){
+        return repeat_or_finish();
+    }
+
+    unsigned char image2[SIZE][SIZE];
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            image2[i][j] = image[i][j];
+        }
+    }
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            image[i][j] = (image2[i-1][j-1]+
+                           image2[i][j-1]+image2[i+1][j-1]+
+                           image2[i-1][j]+image2[i][j]+
+                           image2[i+1][j]+image2[i-1][j+1]+
+                           image2[i][j+1]+image2[i+1][j+1])/9;
+
+        }
+    }
+
+    blur_image(x-1);
+
+}
+void skew_vertically()
+{
+    unsigned char copied_image[SIZE][SIZE];
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+            copied_image[i][j] = image[i][j];
+        }
+    }
+
+    int degree;
+    cout << "Please enter degree to skew right: " ;
+    cin >> degree;
+
+    while (degree == 90 || degree == -90) {
+        cout << "invalid choice ,please try again." << endl;
+        cin >> degree;
+    }
+
+    float raduis = (degree*M_PI)/180;
+
+    int x = 1 + (1/tan(raduis));
+    double step = SIZE - 256/x ;
+    double mov = step/SIZE ;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j<SIZE; j++) {
+            copied_image[i/x][j] = image[i][j];
+            image[i][j] = 255;
+        }
+    }
+
+
+    for (int j = 0; j < SIZE; j++) {
+        for (int i = 0; i<SIZE/x; i++) {
+            image[i+(int)step][j] = copied_image[i][j] ;
+        }
+        step -= mov;
+    }
 
 }
