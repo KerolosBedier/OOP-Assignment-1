@@ -36,6 +36,12 @@ void detact_image(); //Filter 7
 void mirror_image(); //Filter a
 void crop_image(); //Filter d
 
+void enlarge_image(); //Filter 8
+void shuffle_image(); //Filter b
+void skew_image(); //Filter e&f
+void skew_herizontally(); //Filter e
+
+
 
 
 int main() {
@@ -106,7 +112,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 	
 	case 8:
-		// enlarge_image();
+		enlarge_image();
 		break;
 	
 	case 9:
@@ -119,7 +125,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;
 
 	case 11:
-		// shuffle_image();
+		shuffle_image();
 		break;
 
 	case 12:
@@ -131,7 +137,7 @@ void main_menu() {     // this function have all option(filters) for the user to
 		break;	        
 	
     case 14:
-		// skew_image();
+		skew_image();
 		break;	
 	}
 	 
@@ -568,4 +574,205 @@ void crop_image()
     }
 
     repeat_or_finish();
+}
+
+//==========================================================================
+//Kerolos Bedier's Filters Part2 (8,b,e)
+
+void enlarge_image()
+{
+	unsigned char copied_image[SIZE][SIZE];
+
+	for (int i = 0; i < SIZE; i++) {
+	    for (int j = 0; j< SIZE; j++) {
+        	copied_image[i][j] = image[i][j];
+		}
+	}
+
+	int x ;
+	cout << "Which quarter to enlarge 1, 2, 3 or 4?" << endl ;
+	cin >> x ; 
+
+	while (x > 4 || x < 1) {  // this is a limitaion for variable x to make the user don't input a number higher than 2 or lower than 1   
+		cout << "invalid choice ,please try again." << endl;
+		cin >> x;
+	}
+
+	if(x==1)
+	{
+		for (int i = 0; i < SIZE; i++) {
+	    	for (int j = 0; j< SIZE; j++) {
+        		image[i][j] = copied_image[i/2][j/2];
+			}
+		}	
+	}
+
+	if(x==2)
+	{
+		for (int i = 0; i < SIZE; i++) {
+	    	for (int j = 0; j< SIZE; j++) {
+        		image[i][j] = copied_image[i/2][(j/2)+128];
+			}
+		}	
+	}
+
+	if(x==3)
+	{
+		for (int i = 0; i < SIZE; i++) {
+	    	for (int j = 0; j< SIZE; j++) {
+        		image[i][j] = copied_image[(i/2)+128][j/2];
+			}
+		}	
+	}
+
+	if(x==4)
+	{
+		for (int i = 0; i < SIZE; i++) {
+	    	for (int j = 0; j< SIZE; j++) {
+        		image[i][j] = copied_image[(i/2)+128][(j/2)+128];
+			}
+		}	
+	}
+	repeat_or_finish();		
+}
+
+
+
+
+void shuffle_image(){
+
+	unsigned char copied_image[SIZE][SIZE];
+
+	for (int i = 0; i < SIZE; i++) {
+	    for (int j = 0; j< SIZE; j++) {
+        	copied_image[i][j] = image[i][j];
+		}
+	}
+
+	cout << "New order of quarters? \n"
+		<< "Enter a 4 Numbers From 1 to 4 " << endl;
+
+
+	int arr[4] ;
+	for(int i = 0 ; i < 4 ; i++){
+		cin >> arr[i];
+		while (arr[i] > 4 || arr[i] < 1) {  
+			cout << "invalid choice ,please try again." << endl;
+			cin >> arr[i];
+		}	
+	}
+	
+
+	for (int i = 0; i < SIZE/2; i++) {
+    	for (int j = 0; j< SIZE/2; j++) {
+		// Moving Into Frist Part
+		if(arr[0]==2){
+			image[i][j] = copied_image[i][j+128];
+		}
+		else if(arr[0]==3){
+			image[i][j] = copied_image[i][j+128];
+		}
+		else if(arr[0]==4){
+			image[i][j] = copied_image[i+128][j+128];
+		}			
+
+		// Moving Into Seconed Part	
+		if(arr[1]==1){
+			image[i][j+128] = copied_image[i][j];
+		}
+		else if(arr[1]==3){
+			image[i][j+128] = copied_image[i+128][j];
+		}
+		else if(arr[1]==4){
+			image[i][j+128] = copied_image[i+128][j+128];
+		}			
+
+
+		// Moving Into Third Part	
+		if(arr[2]==1){
+			image[i+128][j] = copied_image[i][j];
+		}
+		else if(arr[2]==2){
+			image[i+128][j] = copied_image[i][j+128];
+		}
+		else if(arr[2]==4){
+			image[i+128][j] = copied_image[i+128][j+128];
+		}
+
+
+
+		// Moving Into Forth Part	
+		if(arr[3]==1){
+			image[i+128][j+128] = copied_image[i][j];
+		}
+		else if(arr[3]==2){
+			image[i+128][j+128] = copied_image[i][j+128];
+		}
+		else if(arr[3]==3){
+			image[i+128][j+128] = copied_image[i+128][j];
+		}
+
+    }
+  }
+	repeat_or_finish();	  
+}
+
+
+void skew_image()
+{
+	cout << "Press 1 to Skew Herizontally \n"
+		<< "Press 2 to Skew Vertically \n" ;
+
+	int z ; 
+	cin >> z ; 
+
+	if(z==1)
+		skew_herizontally(); 
+	
+	else if(z==2)
+		// skew_vertically();
+
+	
+repeat_or_finish();	
+}
+
+
+void skew_herizontally()
+{
+	unsigned char copied_image[SIZE][SIZE];
+
+	for (int i = 0; i < SIZE; i++) {
+	    for (int j = 0; j< SIZE; j++) {
+        	copied_image[i][j] = image[i][j];
+		}
+	}
+
+	int degree;
+	cout << "Please enter degree to skew right: " ; 
+	cin >> degree; 
+
+	while (degree == 90 || degree == -90) {  
+		cout << "invalid choice ,please try again." << endl;
+		cin >> degree;
+	}	
+
+	float raduis = (degree*M_PI)/180; 
+
+	int x = 1 + (1/tan(raduis));
+    double step = SIZE - 256/x ;
+	double mov = step/SIZE ;
+	for (int i = 0; i < SIZE; i++) {
+	    for (int j = 0; j<SIZE; j++) {
+			copied_image[i][j/x] = image[i][j];
+           	image[i][j] = 255;
+        }
+	}
+
+	for (int i = 0; i < SIZE; i++) {
+	    for (int j = 0; j<SIZE/x; j++) {
+			image[i][j+(int)step] = copied_image[i][j] ;
+		}
+		step -= mov;
+	}
+
 }
